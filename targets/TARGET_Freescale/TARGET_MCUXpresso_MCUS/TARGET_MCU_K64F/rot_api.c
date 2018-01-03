@@ -44,10 +44,14 @@ void rot_free(rot_t *obj)
 
 int rot_get_256_bits(rot_t *obj, uint32_t *output, size_t output_length)
 {
+    int i;
     (void)obj;
 
     if (output_length < ROT_LEN)
         return -1;
+    for (i=0;i<output_length;i++){
+        *((char *)output+i) = 0;
+    }
 
     *output++ = SIM->UIDH;
     *output++ = SIM->UIDML;

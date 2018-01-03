@@ -28,12 +28,39 @@ using namespace utest::v1;
 
 void test_case_rot()
 {
-unsigned char salt[]="my key";
+char salt[100];
 unsigned char key[16];
-int ret;
+int ret,i;
      ROT * pROT = ROT::get();
-    ret = pROT->derive_key(salt, (size_t)sizeof(salt),key , (size_t)16);
-    printf("\nmy derived key is %llu",(long long unsigned int)key);
+     sprintf(salt,"my key %d",1);
+     ret = pROT->derive_key((const unsigned char *)salt, (size_t)strlen(salt),key , (size_t)16);
+     printf("\nsalt =%s my derived key%i is %llu\n",salt,i,*(long long unsigned int *)key);
+     ret = pROT->derive_key((const unsigned char *)salt, (size_t)strlen(salt),key , (size_t)16);
+     printf("\nsalt =%s my derived key%i is %llu\n",salt,i,*(long long unsigned int *)key);
+     sprintf(salt,"my key %d",2);
+     ret = pROT->derive_key((const unsigned char *)salt, (size_t)strlen(salt),key , (size_t)16);
+     printf("\nsalt =%s my derived key%i is %llu\n",salt,i,*(long long unsigned int *)key);
+     ret = pROT->derive_key((const unsigned char *)salt, (size_t)strlen(salt),key , (size_t)16);
+     printf("\nsalt =%s my derived key%i is %llu\n",salt,i,*(long long unsigned int *)key);
+     sprintf(salt,"my key %d",1);
+     ret = pROT->derive_key((const unsigned char *)salt, (size_t)strlen(salt),key , (size_t)16);
+     printf("\nsalt =%s my derived key%i is %llu\n",salt,i,*(long long unsigned int *)key);
+     ret = pROT->derive_key((const unsigned char *)salt, (size_t)strlen(salt),key , (size_t)16);
+     printf("\nsalt =%s my derived key%i is %llu\n",salt,i,*(long long unsigned int *)key);
+     sprintf(salt,"my key %d",2);
+     ret = pROT->derive_key((const unsigned char *)salt, (size_t)strlen(salt),key , (size_t)16);
+     printf("\nsalt =%s my derived key%i is %llu\n",salt,i,*(long long unsigned int *)key);
+     ret = pROT->derive_key((const unsigned char *)salt, (size_t)strlen(salt),key , (size_t)16);
+     printf("\nsalt =%s my derived key%i is %llu\n",salt,i,*(long long unsigned int *)key);
+
+#if 0
+     for (i=0;i<100;i++){
+        // sprintf(salt,"my key %d",i);
+         ret = pROT->derive_key((const unsigned char *)salt, (size_t)strlen(salt),key , (size_t)16);
+         printf("\nsalt =%s my derived key%i is %llu\n",salt,i,*(long long unsigned int *)key);
+
+     }
+#endif
     TEST_ASSERT_EQUAL_INT32(0, ret);
 }
 

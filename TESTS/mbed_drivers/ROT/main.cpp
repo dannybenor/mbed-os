@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-#include "utest/utest.h"
-#include "unity/unity.h"
-#include "greentea-client/test_env.h"
-
 #include "mbed.h"
+#include "greentea-client/test_env.h"
+#include "unity/unity.h"
+#include "utest/utest.h"
+#include <stdlib.h>
+#include <stdio.h>
+
 #include "drivers/ROT.h"
 
 using namespace utest::v1;
@@ -46,7 +48,7 @@ Case cases[] = {
 };
 
 utest::v1::status_t greentea_test_setup(const size_t number_of_cases) {
-    GREENTEA_SETUP(5, "default_auto");
+    GREENTEA_SETUP(50, "default_auto");
     return greentea_test_setup_handler(number_of_cases);
 }
 

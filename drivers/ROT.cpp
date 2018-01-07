@@ -68,9 +68,9 @@ int ROT::derive_key(const unsigned char *salt, size_t salt_length, unsigned char
     int result=0;
     uint32_t i, key[ROT_LEN/sizeof(uint32_t)];
 
-    for (i=0;i<ROT_LEN/sizeof(uint32_t);i++){
-            *((char *)output+i) = 0;
-        }
+    //for (i=0;i<ROT_LEN/sizeof(uint32_t);i++){
+    //        key[i] = 0;
+     //   }
 #if DEVICE_ROT
     rot_t rot_obj;
         rot_init(&rot_obj);
@@ -92,7 +92,7 @@ int ROT::derive_key(const unsigned char *salt, size_t salt_length, unsigned char
             result = mbedtls_md_setup( &sha1_ctx, info_sha1, 1 );
         }
         if (result == 0){
-            result = mbedtls_pkcs5_pbkdf2_hmac( &sha1_ctx, (unsigned char *)key, ROT_LEN, salt,salt_length, 0, out_length, output );
+            result = mbedtls_pkcs5_pbkdf2_hmac( &sha1_ctx, (unsigned char *)key, ROT_LEN, salt,salt_length, 100, out_length, output );
         }
 
         mbedtls_md_free( &sha1_ctx );

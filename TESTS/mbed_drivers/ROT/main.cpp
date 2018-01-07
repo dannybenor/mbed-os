@@ -24,6 +24,8 @@
 #include "drivers/ROT.h"
 
 using namespace utest::v1;
+#define NUMBER_OF_ITERATIONS 100
+unsigned char results[2][NUMBER_OF_ITERATIONS][16];
 
 
 void test_case_rot()
@@ -32,36 +34,24 @@ char salt[100];
 unsigned char key[16];
 int ret,i;
      ROT * pROT = ROT::get();
-     sprintf(salt,"my key %d",1);
-     ret = pROT->derive_key((const unsigned char *)salt, (size_t)strlen(salt),key , (size_t)16);
-     printf("\nsalt =%s my derived key%i is %llu\n",salt,i,*(long long unsigned int *)key);
-     ret = pROT->derive_key((const unsigned char *)salt, (size_t)strlen(salt),key , (size_t)16);
-     printf("\nsalt =%s my derived key%i is %llu\n",salt,i,*(long long unsigned int *)key);
-     sprintf(salt,"my key %d",2);
-     ret = pROT->derive_key((const unsigned char *)salt, (size_t)strlen(salt),key , (size_t)16);
-     printf("\nsalt =%s my derived key%i is %llu\n",salt,i,*(long long unsigned int *)key);
-     ret = pROT->derive_key((const unsigned char *)salt, (size_t)strlen(salt),key , (size_t)16);
-     printf("\nsalt =%s my derived key%i is %llu\n",salt,i,*(long long unsigned int *)key);
-     sprintf(salt,"my key %d",1);
-     ret = pROT->derive_key((const unsigned char *)salt, (size_t)strlen(salt),key , (size_t)16);
-     printf("\nsalt =%s my derived key%i is %llu\n",salt,i,*(long long unsigned int *)key);
-     ret = pROT->derive_key((const unsigned char *)salt, (size_t)strlen(salt),key , (size_t)16);
-     printf("\nsalt =%s my derived key%i is %llu\n",salt,i,*(long long unsigned int *)key);
-     sprintf(salt,"my key %d",2);
-     ret = pROT->derive_key((const unsigned char *)salt, (size_t)strlen(salt),key , (size_t)16);
-     printf("\nsalt =%s my derived key%i is %llu\n",salt,i,*(long long unsigned int *)key);
-     ret = pROT->derive_key((const unsigned char *)salt, (size_t)strlen(salt),key , (size_t)16);
-     printf("\nsalt =%s my derived key%i is %llu\n",salt,i,*(long long unsigned int *)key);
-
-#if 0
-     for (i=0;i<100;i++){
-        // sprintf(salt,"my key %d",i);
-         ret = pROT->derive_key((const unsigned char *)salt, (size_t)strlen(salt),key , (size_t)16);
-         printf("\nsalt =%s my derived key%i is %llu\n",salt,i,*(long long unsigned int *)key);
-
+     for (i=0;i<NUMBER_OF_ITERATIONS;i++){
+         sprintf(salt,"my key %d",i);
+         ret = pROT->derive_key((const unsigned char *)salt, (size_t)strlen(salt),results[0][i] , (size_t)16);
+         TEST_ASSERT_EQUAL_INT32(0, ret);
+         printf("\nsalt =%s my derived key%i is %016llx %016llx\n",salt,i,*(long long unsigned int *)results[0][i],*(long long unsigned int *)(results[0][i]+8));
      }
-#endif
-    TEST_ASSERT_EQUAL_INT32(0, ret);
+     for (i=0;i<NUMBER_OF_ITERATIONS;i++){
+         sprintf(salt,"my key %d",i);
+         ret = pROT->derive_key((const unsigned char *)salt, (size_t)strlen(salt),results[1][i] , (size_t)16);
+         TEST_ASSERT_EQUAL_INT32(0, ret);
+         printf("\nsalt =%s my derived key%i is %016llx %016llx\n",salt,i,*(long long unsigned int *)results[1][i],*(long long unsigned int *)(results[0][i]+8));
+     }
+
+
+    for (i=0;i<NUMBER_OF_ITERATIONS;i++){
+        TEST_ASSERT_EQUAL_MEMORY(results[0][i], results[1][i], 16);
+    }
+
 }
 
 
